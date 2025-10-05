@@ -1,0 +1,25 @@
+name: Cache Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  cache-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # Cache dependencies
+      - name: Cache dependencies
+        id: cache-step
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip   # or another folder for your dependencies
+          key: cache-a100e3b
+
+      # Echo cache hit/miss
+      - name: prime-cache-a100e3b
+        run: echo "Cache hit: ${{ steps.cache-step.outputs.cache-hit }}"
